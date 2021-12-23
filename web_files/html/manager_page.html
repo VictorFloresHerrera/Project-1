@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Page</title>
+    <link rel="stylesheet" href="../css/employee_page.css">
+</head>
+<body>
+    <h1 style="text-align: center; color: black;  font-size: 30px;" >Manager Page</h1>
+    <center>
+    <h2> Manager Table</h2>
+    <table id="managerTable">
+        <thead id="managerHead">
+            <tr>
+                <th>
+                    |Manager ID|
+                </th>
+
+                <th>
+                    |First Name|
+                </th>
+                <th>
+                    |Last Name|
+                </th>
+                <th>
+                    |User|
+                </th>
+            </tr>
+        </thead>
+        <!-- Add dynamic event here... -->
+        <tbody id="managerBody">
+            <tr>
+
+            </tr>
+                <!-- Content will be added dynamically -->
+        </tbody>
+    </table>
+    <br>
+        <h2> Past Reimbursement Table </h2>
+    <table>
+        <tbody id="reimbursementBody">
+            <tr>
+                <th>|Employee ID|</th>
+                <th>|Manager ID|</th>
+                <th>|Reimbursement|</th>
+                <th>|Reasonwhy|</th>
+                <th>|Acceptance|</th>
+                <th>|ManagerComment|</th>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <h2> Pending Reimbursement Table</h2>
+    <table>
+        <tbody id="reimbursementPendingBody">
+            <tr>
+                <th>|Reimbursement ID|</th>
+                <th></th>
+                <th>|Employee ID|</th>
+                <th></th>
+                <th>|Reimbursement|</th>
+                <th></th>
+                <th>|Reasonwhy|</th>
+                <th></th>
+                <th>|Acceptance|</th>
+                <th></th>
+                <th>|ManagerComment|</th>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+        <h3> Approve or Deny Reimbursement </h3>
+    <div id="createRequestForm" class="container">
+        <label for="ReimbursementIdInput"><b>Reimbursement Id</b></label>
+        <input type="text" placeholder="Enter Your Reimbursement Id" id="reimbursementIdInput" required>
+        <br>
+        <label for="employeeIdInput"><b>Employee Id</b></label>
+        <input type="text" placeholder="Enter Your Employee Id" id="employeeIdInput">
+        <br>
+        <label for="requestReimbursementInput"><b>Reimbursement Requested</b></label>
+        <input type="text" placeholder="Enter Reimbursement Amount" id="requestReimbursementInput" disabled>
+        <br>
+        <label for="reasonwhy"><b>Reasonwhy</b></label>
+        <input type="text" placeholder="Enter Your Reasonwhy why" id="reasonwhy" disabled>
+        <br>
+        <label for="acceptance"><b>Acceptance</b></label>
+        <input type="text" placeholder="Enter Your Choice" id="acceptance">
+        <br>
+        <label for="managerComment"><b>Manager Comment</b></label>
+        <input type="text" placeholder="Manager Comment" id="managerComment">
+        <br>
+        <button onclick="updateApproveReimbursementInfo()">Acceptance</button>
+        <br>
+
+        <div id="logoutLblPos">
+    <button  id="logoutbutton" onclick="logout()">Logout</button>
+    </div>
+
+    </div>
+<script src="../js/manager_page.js"></script>
+</center>
+</body>
+</html>
