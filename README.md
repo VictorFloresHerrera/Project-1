@@ -56,9 +56,13 @@ To install necessary dependencies, run the following command:
 # **Packages Used**
 
 1)Psycopg
+<br>
 2)Flask
+<br>
 3)Pytest
+<br>
 4)Behave
+<br>
 5)Selenium
 
 # **Format**
