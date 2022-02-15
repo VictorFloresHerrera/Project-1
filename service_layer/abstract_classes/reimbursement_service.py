@@ -57,4 +57,8 @@ class ReimbursementService(ABC):
     def get_number_of_reimbursement_requests_denied(self):
         pass
 
+    @abstractmethod
+    def get_number_of_null_reimbursement_request(self):
+        pass
+
 

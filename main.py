@@ -1,28 +1,31 @@
 from flask import Flask, request, jsonify
 import logging
-
+from flask_cors import CORS
 from custom_exceptions.caution_negative_number_exception import CautionNegativeNumberException
 from custom_exceptions.employee_id_nonexist_exception import EmployeeIdNonexistException
 # from custom_exceptions.employee_nonexist_exception import EmployeeNonexistException
+from custom_exceptions.employee_nonexist_exception import EmployeeNonexistException
 from custom_exceptions.invalid_acceptance_exception import InvalidAcceptanceException
 from custom_exceptions.login_failed_exception import LoginFailedException
 from custom_exceptions.manager_nonexist_exception import ManagerNonexistException
+from custom_exceptions.manager_user_not_found_exception import ManagerUserNotFoundException
 from custom_exceptions.reimbursement_duplicate_exception import ReimbursementDuplicateException
 from data_access_layer.dao_imp.manager_imp_dao import ManagerPostgresDAO
 # from data_access_layer.dao_imp.reimbursement_imp_dao import ReimbursementPostgresDAO
+from data_access_layer.dao_imp.reimbursement_imp_dao import ReimbursementPostgresDAO
 from entities.employee import Employee
 from entities.manager import Manager
 from data_access_layer.dao_imp.employee_imp_dao import EmployeePostgresDAO
 from entities.reimbursement import Reimbursement
-from postgres_tests.service_tests.test_reimbursement_service import reimbursement_service
+# from postgres_tests.service_tests.test_reimbursement_service import reimbursement_service
 from service_layer.service_imp.employee_postgres_service import EmployeePostgresService
 from service_layer.service_imp.manager_postgres_service import ManagerPostgresService
-
-# from service_layer.service_imp.reimbursement_postgres_service import ReimbursementPostgresService
+from service_layer.service_imp.reimbursement_postgres_service import ReimbursementPostgresService
 
 logging.basicConfig(filename="records.log", level=logging.DEBUG, format=f"%(asctime)s %(levelname)s %(message)s")
 
 app: Flask = Flask(__name__)
+CORS(app)
 
 employee_dao = EmployeePostgresDAO()
 employee_service = EmployeePostgresService(employee_dao)
@@ -30,14 +33,14 @@ employee_service = EmployeePostgresService(employee_dao)
 manager_dao = ManagerPostgresDAO()
 manager_service = ManagerPostgresService(manager_dao)
 
+reimbursement_dao = ReimbursementPostgresDAO()
+reimbursement_service = ReimbursementPostgresService(reimbursement_dao)
 
-# reimbursement_dao = ReimbursementPostgresDAO()
-# reimbursement_service = ReimbursementPostgresService(reimbursement_dao)
 
-@app.get("/employee/<user>")
-def get_employee_by_id(user: str):  # employee_id: int
+@app.get("/employee/<userid>")
+def get_employee_by_id(userid: str):
     try:
-        result = employee_service.service_get_employee_info(user)
+        result = employee_service.service_get_employee_by_id(userid)
         result_as_dictionary = result.make_employee_dictionary()
         result_as_json = jsonify(result_as_dictionary)
         return result_as_json
@@ -60,29 +63,46 @@ def get_all_employees():
 @app.post("/employee/login")
 def service_get_login_for_employee():
     result = request.get_json()
-    if result:
-        #  objects for postman
-        employee_id = result["user"]
-        employee_passcode = result["passcode"]
-        try:
-            #  Returning the objects
-            return_employee: Employee = employee_service.service_get_login_for_employee(employee_id, employee_passcode)
-            #  Placing objects method into object
-            # employee_object = employee_service.service_get_login_for_employee(return_employee)
-            #  Creating dictionary
-            employee_dictionary = return_employee.make_employee_dictionary()
-            #  Returning dictionary into JSON
-            employee_json = jsonify(employee_dictionary)
-            return employee_json
-            #  Raising Exception
-        except LoginFailedException as e:
-            exception_dictionary = {"message": str(e)}
-            exception_json = jsonify(exception_dictionary)
-            return exception_json
+    this_id = result["userid"]
+    this_passcode = result["passcode"]
+
+    try:
+        employee_returning = Employee(userid=this_id, passcode=this_passcode)
+        employee_object = employee_service.service_get_login_for_employee(employee_returning)
+        employee_dict = employee_object.make_employee_dictionary()
+        employee_json = jsonify(employee_dict)
+        return employee_json
+    except LoginFailedException as e:
+        exception_dictionary = {"message": str(e)}
+        exception_json = jsonify(exception_dictionary)
+        return exception_json
+
+
+#######################################################################################
+# result = request.get_json()
+# if result:
+#     #  objects for postman
+#     user = result["user"]
+#     employee_passcode = result["passcode"]
+#     try:
+#         #  Returning the objects
+#         return_employee: Employee = employee_service.service_get_login_for_employee()
+#         #  Placing objects method into object
+#         # employee_object = employee_service.service_get_login_for_employee(return_employee)
+#         #  Creating dictionary
+#         employee_dictionary = return_employee.make_employee_dictionary()
+#         #  Returning dictionary into JSON
+#         employee_json = jsonify(employee_dictionary)
+#         return employee_json
+#         #  Raising Exception
+#     except LoginFailedException as e:
+#         exception_dictionary = {"message": str(e)}
+#         exception_json = jsonify(exception_dictionary)
+#         return exception_json
 
 
 @app.get("/employee/reimbursement/<employee_id>")
-def get_employee_reimbursement_by_employee_id(employee_id: str):
+def get_employee_reimbursement_by_employee_id(employee_id: int):
     reimbursement_as_reimbursement = reimbursement_service.service_select_reimbursement_by_employee_id(int(employee_id))
     reimbursement_as_dictionary = []
     for reimbursements in reimbursement_as_reimbursement:
@@ -153,14 +173,27 @@ def get_all_pending_reimbursement_by_manager_id(manager_id: int):
 ##################################################################################################################
 
 
-@app.get("/manager/<manager_id>")
-def get_manager_by_id(user: str):
+@app.get("/manager/<userid>")
+def get_manager_by_id(userid: str):
     try:
-        result = manager_service.service_get_manager_info(user)
+        result = manager_service.service_get_manager_by_id(userid)
         result_as_dictionary = result.make_manager_dictionary()
         result_as_json = jsonify(result_as_dictionary)
         return result_as_json
-    except ManagerNonexistException as e:
+    except ManagerUserNotFoundException as e:
+        exception_dictionary = {"message": str(e)}
+        exception_json = jsonify(exception_dictionary)
+        return exception_json
+
+
+@app.get("/manager/null/<userid>")
+def get_manager_by_id_null(userid: str):
+    try:
+        result = manager_service.service_get_manager_by_id(userid)
+        result_as_dictionary = result.make_manager_dictionary()
+        result_as_json = jsonify(result_as_dictionary)
+        return result_as_json
+    except ManagerUserNotFoundException as e:
         exception_dictionary = {"message": str(e)}
         exception_json = jsonify(exception_dictionary)
         return exception_json
@@ -181,11 +214,11 @@ def service_get_login_for_manager():
     result = request.get_json()
     if result:
         #  objects for postman
-        manager_id = result["user"]
+        userid = result["userid"]
         manager_passcode = result["passcode"]
         try:
             #  Returning the objects
-            return_manager: Manager = manager_service.service_get_login_for_manager(manager_id, manager_passcode)
+            return_manager: Manager = manager_service.service_get_login_for_manager(userid, manager_passcode)
             #  Placing objects method into object
             # manager_object = manager_service.service_get_login_for_manager(return_manager)
             #  Creating dictionary
@@ -202,14 +235,14 @@ def service_get_login_for_manager():
 
 ################################################################################################################
 
-@app.patch("/reimbursement/accept/<reimbursement_id>")
+@app.patch("/reimbursement/approve/<reimbursement_id>")
 def service_approve_reimbursement(reimbursement_id):
     try:
         result = request.get_json()
         new_reimbursement = Reimbursement(
             int(reimbursement_id),
-            result["employeeId"],
-            result["managerId"],
+            int(result["employeeId"]),
+            int(result["managerId"]),
             result["reimbursement"],
             result["reasonwhy"],
             result["acceptance"],
@@ -219,6 +252,10 @@ def service_approve_reimbursement(reimbursement_id):
         return "Manager has updated your reimbursement information" + str(reimbursement_to_return)
     except InvalidAcceptanceException as e:
         return str(e)
+    except EmployeeNonexistException as e:
+        return str(e)
+    except ManagerNonexistException as e:
+        return str(e)
 
 
 @app.patch("/reimbursement/deny/<reimbursement_id>")
@@ -227,8 +264,8 @@ def service_deny_reimbursement(reimbursement_id):
         result = request.get_json()
         new_reimbursement = Reimbursement(
             int(reimbursement_id),
-            result["employeeId"],
-            result["managerId"],
+            int(result["employeeId"]),
+            int(result["managerId"]),
             result["reimbursement"],
             result["reasonwhy"],
             result["acceptance"],
@@ -237,6 +274,10 @@ def service_deny_reimbursement(reimbursement_id):
         reimbursement_to_return = reimbursement_service.service_deny_reimbursement(new_reimbursement)
         return "Manager has updated your reimbursement information" + str(reimbursement_to_return)
     except InvalidAcceptanceException as e:
+        return str(e)
+    except EmployeeNonexistException as e:
+        return str(e)
+    except ManagerNonexistException as e:
         return str(e)
 
 

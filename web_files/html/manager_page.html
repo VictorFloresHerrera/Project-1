@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!--    style of site-->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Page</title>
     <link rel="stylesheet" href="../css/employee_page.css">
 </head>
-<body>
-    <h1 style="text-align: center; color: black;  font-size: 30px;" >Manager Page</h1>
-    <center>
-    <h2> Manager Table</h2>
-    <table id="managerTable">
+<body> <center>
+    <h1 style="text-align: center; color: black;  font-size: 50px;" >Manager Page</h1>
+
+    <h2>Manager:</h2>
+    
+    <table id="currentManager">
         <thead id="managerHead">
             <tr>
                 <th>
                     |Manager ID|
                 </th>
-
                 <th>
                     |First Name|
                 </th>
@@ -25,24 +26,39 @@
                     |Last Name|
                 </th>
                 <th>
-                    |User|
+                    |Userid|
                 </th>
             </tr>
         </thead>
-        <!-- Add dynamic event here... -->
+        
         <tbody id="managerBody">
             <tr>
 
             </tr>
-                <!-- Content will be added dynamically -->
+
         </tbody>
     </table>
-    <br>
-        <h2> Past Reimbursement Table </h2>
+    <br> 
+    
+        <h2>Statistics</h2>
+        <h5>Total Requests</h5>
+        <p id="reimbursementRequestsTotal"></p>
+        <h5>Pending Requests</h5>
+        <p id="reimbursementRequestsPending"></p>
+        <h5>Approved Requests</h5>
+        <p id="reimbursementRequestsApproved"></p>
+        <h5>Denied Requests</h5>
+        <p id="reimbursementRequestsDenied"></p>
+        <h5>Null Requests</h5>
+        <p id="reimbursementRequestsNull"></p>
+        <h5>0</h5>
+
+        <h2> Past Reimbursement: </h2>
     <table>
-        <tbody id="reimbursementBody">
+        <!--        Id Referenced-->
+        <tbody id="currentReimbursementBody">
             <tr>
-                <th>|Employee ID|</th>
+                <th>|Reimbursement ID|</th>
                 <th>|Manager ID|</th>
                 <th>|Reimbursement|</th>
                 <th>|Reasonwhy|</th>
@@ -52,54 +68,54 @@
         </tbody>
     </table>
     <br>
-    <h2> Pending Reimbursement Table</h2>
+    <h2> Pending Reimbursement: </h2>
     <table>
-        <tbody id="reimbursementPendingBody">
+<!--        Id Referenced-->
+        <tbody id="currentReimbursementPendingBody">
             <tr>
                 <th>|Reimbursement ID|</th>
-                <th></th>
-                <th>|Employee ID|</th>
-                <th></th>
+                <!-- <th>Employee ID</th> -->
+                <th>|Manager ID|</th>
                 <th>|Reimbursement|</th>
-                <th></th>
                 <th>|Reasonwhy|</th>
-                <th></th>
                 <th>|Acceptance|</th>
-                <th></th>
                 <th>|ManagerComment|</th>
             </tr>
         </tbody>
     </table>
     <br>
-        <h3> Approve or Deny Reimbursement </h3>
+        <h3> Approve or Deny Reimbursement: </h3>
     <div id="createRequestForm" class="container">
-        <label for="ReimbursementIdInput"><b>Reimbursement Id</b></label>
-        <input type="text" placeholder="Enter Your Reimbursement Id" id="reimbursementIdInput" required>
+        <label for="ReimbursementIdInput"><b>Reimbursement Id:</b></label>
+        <input type="text" placeholder="Enter" id="ReimbursementIdInput" required>
+
+        <label for="employeeIdInput"><b>Employee Id:</b></label>
+        <input type="text" placeholder="Enter" id="employeeIdInput">
         <br>
-        <label for="employeeIdInput"><b>Employee Id</b></label>
-        <input type="text" placeholder="Enter Your Employee Id" id="employeeIdInput">
+        <label for="managerIdInput"><b>Manager Id:</b></label>
+        <input type="text" placeholder="Enter" id="managerIdInput">
+
+        <label for="requestReimbursementInput"><b>Reimbursement:</b></label>
+        <input type="text" placeholder="Enter" id="requestReimbursementInput">
+
+        <label for="reasonwhyinput"><b>Reasonwhy:</b></label>
+        <input type="text" placeholder="Enter" id="reasonwhyinput">
         <br>
-        <label for="requestReimbursementInput"><b>Reimbursement Requested</b></label>
-        <input type="text" placeholder="Enter Reimbursement Amount" id="requestReimbursementInput" disabled>
-        <br>
-        <label for="reasonwhy"><b>Reasonwhy</b></label>
-        <input type="text" placeholder="Enter Your Reasonwhy why" id="reasonwhy" disabled>
-        <br>
-        <label for="acceptance"><b>Acceptance</b></label>
-        <input type="text" placeholder="Enter Your Choice" id="acceptance">
-        <br>
-        <label for="managerComment"><b>Manager Comment</b></label>
-        <input type="text" placeholder="Manager Comment" id="managerComment">
-        <br>
-        <button onclick="updateApproveReimbursementInfo()">Acceptance</button>
+        <label for="acceptanceinput"><b>Acceptance:</b></label>
+        <input type="text" placeholder="Enter" id="acceptanceinput">
+
+        <label for="managerCommentinput"><b>Manager Comment:</b></label>
+        <input type="text" placeholder="Enter" id="managerCommentinput">
         <br>
 
-        <div id="logoutLblPos">
-    <button  id="logoutbutton" onclick="logout()">Logout</button>
-    </div>
+<!--        approve, deny, and logout buttons-->
+        <button id="Approvebutton" onclick="updateApproveReimbursementInfo()">Approve</button>
+        <button id="Denybutton" onclick="updateDenyReimbursementInfo()">Deny</button>
+        <button id="logoutbutton" onclick="logout()">Logout</button>
 
     </div>
+<!--    transport-->
 <script src="../js/manager_page.js"></script>
-</center>
+            </center>
 </body>
 </html>

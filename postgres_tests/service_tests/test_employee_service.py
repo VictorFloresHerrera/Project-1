@@ -6,12 +6,12 @@ from service_layer.service_imp.employee_postgres_service import EmployeePostgres
 employee_dao = EmployeePostgresDAO()
 employee_service = EmployeePostgresService(employee_dao)
 
-# employee_with_wrong_login = Employee("Victor", "Victor", 1, "my")
+employee_with_wrong_login = Employee(1, "Victor", "Victor", "1", "my")
 
 
 def test_service_get_login_for_employee():
     try:
-        employee_service.service_get_login_for_employee("1", "my")
+        employee_service.service_get_login_for_employee(employee_with_wrong_login)
         assert False
     except LoginFailedException as e:
         assert str(e) == "Login Failed."

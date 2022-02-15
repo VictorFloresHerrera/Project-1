@@ -10,15 +10,15 @@ logging.basicConfig(filename="records.log", level=logging.DEBUG, format=f"%(asct
 
 class EmployeePostgresDAO(EmployeeDAO):
 
-    def get_employee_info(self, employee_id) -> Employee:
-        sql = "select * from employee where employee_id = %s"
+    def get_employee_by_id(self, userid) -> Employee:
+        sql = "select * from employee where userid = %s"
         cursor = connection.cursor()
-        cursor.execute(sql, [employee_id])
+        cursor.execute(sql, [userid])
         employee_record = cursor.fetchone()
         employee = Employee(*employee_record)
         return employee
 
-    def get_all_employees(self) -> List[Employee]:
+    def get_all_employees(self) -> list[Employee]:
         sql = "select * from employee"
         cursor = connection.cursor()
         cursor.execute(sql)
@@ -29,18 +29,18 @@ class EmployeePostgresDAO(EmployeeDAO):
         return employees_list
 
     def update_employee(self, employee: Employee) -> Employee:
-        sql = "update employee set first_name = %s, last_name = %s, passcode = %s where employee_id " \
+        sql = "update employee set first_name = %s, last_name = %s, userid = %s, passcode = %s where employee_id " \
               "= %s "
         cursor = connection.cursor()
         cursor.execute(sql, (
-            employee.first_name, employee.last_name, employee.passcode, employee.employee_id))
+            employee.first_name, employee.last_name, employee.userid, employee.passcode, employee.employee_id))
         connection.commit()
         return employee
 
-    def get_login_for_employee(self, user: str, passcode: str) -> Employee:
-        sql = 'select * from employee where user = %s and passcode = %s'
+    def get_login_for_employee(self, employee: Employee) -> Employee:
+        sql = "select * from employee where userid = %s and passcode = %s"
         cursor = connection.cursor()
-        cursor.execute(sql, (user, passcode))
+        cursor.execute(sql, (employee.userid, employee.passcode))
         employee_record = cursor.fetchone()
         print(employee_record)
         this_employee = Employee(*employee_record)

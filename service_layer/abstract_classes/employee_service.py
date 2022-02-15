@@ -6,7 +6,7 @@ from entities.employee import Employee
 class EmployeeService(ABC):
 
     @abstractmethod
-    def service_get_employee_info(self, user: str) -> Employee: #user: str
+    def service_get_employee_by_id(self, userid: str) -> Employee:
         pass
 
     @abstractmethod
@@ -18,5 +18,5 @@ class EmployeeService(ABC):
         pass
 
     @abstractmethod
-    def service_get_login_for_employee(self, user: str, passcode: str):
+    def service_get_login_for_employee(self, employee: Employee) -> Employee:
         pass

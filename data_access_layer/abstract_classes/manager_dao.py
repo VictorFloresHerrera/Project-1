@@ -6,7 +6,7 @@ from entities.manager import Manager
 class ManagerDAO(ABC):
 
     @abstractmethod
-    def get_manager_info(self, user) -> Manager:
+    def get_manager_by_id(self, userid) -> Manager:
         pass
 
     @abstractmethod
@@ -18,6 +18,6 @@ class ManagerDAO(ABC):
         pass
 
     @abstractmethod
-    def get_login_for_manager(self, user: str, passcode: str):
+    def get_login_for_manager(self, userid: str, passcode: str):
         pass
 

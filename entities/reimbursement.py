@@ -1,6 +1,6 @@
 class Reimbursement:
-    def __init__(self, reimbursement_id: int, employee_id: int, manager_id: int,
-                 reimbursement: int, reasonwhy: str, acceptance: str, manager_comment: str):
+    def __init__(self, reimbursement_id: int = 0, employee_id: int = 0, manager_id: int = 0,
+                 reimbursement: int = 0, reasonwhy: str = "", acceptance: str = 'pending', manager_comment: str = ""):
         self.reimbursement_id = reimbursement_id
         self.employee_id = employee_id
         self.manager_id = manager_id

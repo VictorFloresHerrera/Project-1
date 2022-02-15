@@ -16,8 +16,8 @@ def test_get_login_for_employee_success():
 
 
 def test_get_employee_by_id():
-    login_info = Employee(employee_id=1, first_name="Vic", last_name="Vic", user="test", passcode="mycode")
-    assert employee_dao.get_employee_info(login_info.employee_id)
+    login_info = Employee(employee_id=1, first_name="Vic", last_name="Vic", userid="firstemployee", passcode="mycode1")
+    assert employee_dao.get_employee_by_id(login_info.userid)
 
 
 def test_get_all_employee():

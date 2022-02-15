@@ -11,12 +11,12 @@ class EmployeePostgresService(EmployeeService):
     def __init__(self, employee_dao: EmployeePostgresDAO):
         self.employee_dao = employee_dao
 
-    def service_get_employee_info(self, user: str) -> Employee:
+    def service_get_employee_by_id(self, userid: str) -> Employee:
         employee_list = self.employee_dao.get_all_employees()
         for existing_employee in employee_list:
-            if existing_employee.user == user:
-                return self.employee_dao.get_employee_info(user)
-        raise EmployeeUserNotFound("Employee username was not found")
+            if existing_employee.userid == userid:
+                return self.employee_dao.get_employee_by_id(userid)
+        raise EmployeeUserNotFound("Employee user was not found")
 
     def service_get_all_employee(self) -> list[Employee]:
         all_employee = self.employee_dao.get_all_employees()
@@ -26,11 +26,11 @@ class EmployeePostgresService(EmployeeService):
         updated_employee = self.service_update_employee(employee)
         return updated_employee
 
-    def service_get_login_for_employee(self, user: str, passcode: str) -> Employee:
+    def service_get_login_for_employee(self, employee: Employee) -> Employee:
         employee_list = self.employee_dao.get_all_employees()
         for existing_employee in employee_list:
-            if existing_employee.user == user and existing_employee.passcode == passcode:
-                return self.employee_dao.get_login_for_employee(user, passcode)
+            if existing_employee.userid == employee.userid and existing_employee.passcode == employee.passcode:
+                return self.employee_dao.get_login_for_employee(employee)
         raise LoginFailedException("Login Failed.")
 
 

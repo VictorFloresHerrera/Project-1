@@ -15,8 +15,8 @@ def test_get_login_for_manager_success():
 
 
 def test_get_manager_by_id():
-    login_info = Manager(manager_id=1, first_name="Vic", last_name="Vic", user="test", passcode="mycode")
-    assert manager_dao.get_manager_info(login_info.manager_id)
+    login_info = Manager(manager_id=1, first_name="Vic", last_name="Vic", userid="firstmanager", passcode="mycode1")
+    assert manager_dao.get_manager_by_id(login_info.userid)
 
 
 def test_get_all_managers():

@@ -6,7 +6,7 @@ from entities.manager import Manager
 class ManagerService(ABC):
 
     @abstractmethod
-    def service_get_manager_info(self, user: str) -> Manager:
+    def service_get_manager_by_id(self, userid: str) -> Manager:
         pass
 
     @abstractmethod
@@ -18,6 +18,6 @@ class ManagerService(ABC):
         pass
 
     @abstractmethod
-    def service_get_login_for_manager(self, user: str, passcode: str):
+    def service_get_login_for_manager(self, userid: str, passcode: str):
         pass
 

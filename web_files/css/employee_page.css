@@ -1,0 +1,25 @@
+body{
+    background-color:gray;
+    font-size:14px;
+    color:black;
+}
+
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 40px;
+}
+
+.logoutLblPos{
+
+    position:fixed;
+    right:10px;
+    top:5px;
+ }

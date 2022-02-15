@@ -7,28 +7,28 @@
     <title>Employee Page</title>
     <link rel="stylesheet" href="../css/employee_page.css">
 </head>
-<body>
-    <h1 style="text-align: center; color: white font-size: 30px;">Employee  Page</h1>
-    <center>
-    <h2> Employee Table</h2>
-    <table id="employeeTable">
-        <thead id="employeeHead">
+<body> <center>
+    <h1 style="text-align: center; color:black; font-size: 50px;">Employee info</h1>
+
+    <h2>Employee:</h2>
+    <table id="currentemployee"> 
+        <thead id="employeeHead"> 
             <tr>
                 <th>
-                    |Employee ID|
+                     |Employee ID| 
                 </th>
                 <th>
-                    |First Name|
+                     |First Name| 
                 </th>
                 <th>
-                    |Last Name|
+                     |Last Name| 
                 </th>
                 <th>
-                    |User|
+                     |Userid|  
                 </th>
             </tr>
         </thead>
-
+    
         <tbody id="employeeBody">
             <tr>
 
@@ -37,46 +37,41 @@
         </tbody>
     </table>
     <br>
-        <h2> Reimbursement Table </h2>
+        <h2>Reimbursement:</h2>
     <table>
-        <tbody id="reimbursementBody">
+        <tbody id="currentReimbursementBody">
             <tr>
                 <th>|Reimbursement ID|</th>
-                <th></th>
                 <th>|Manager ID|</th>
-                <th></th>
                 <th>|Reimbursement|</th>
-                <th></th>
                 <th>|Reasonwhy|</th>
-                <th></th>
                 <th>|Acceptance|</th>
-                <th></th>
                 <th>|ManagerComment|</th>
             </tr>
         </tbody>
     </table>
     <br>
-        <h3>Create a Reimbursement</h3>
+        <h3>New Reimbursement:</h3>
     <div id="createRequestForm" class="container">
         <label for="employeeIdInput"><b>Employee Id:</b></label>
-        <input type="text" placeholder="Enter Your Id" id="employeeIdInput" required>
-        <br>
+        <input type="text" placeholder="Enter" id="employeeIdInput" required>
+
         <label for="managerIdInput"><b>Manager Id:</b></label>
-        <input type="text" placeholder="Manager Id" id="managerIdInput">
+        <input type="text" placeholder="Enter" id="managerIdInput">
         <br>
-        <label for="requestReimbursementInput"><b>Reimbursement Requested:</b></label>
-        <input type="text" placeholder="Enter Reimbursement Amount" id="requestReimbursementInput">
-        <br>
+        <label for="requestReimbursementInput"><b>Reimbursement:</b></label>
+        <input type="text" placeholder="Enter" id="requestReimbursementInput">
+
         <label for="reasonwhy"><b>Reasonwhy:</b></label>
-        <input type="text" placeholder="Enter Your Reasonwhy" id="reasonwhy">
+        <input type="text" placeholder="Enter" id="reasonwhy">
         <br>
         <label for="acceptance"><b>Acceptance:</b></label>
-        <input type="text" placeholder="Enter Your choice" id="acceptance" required>
-        <br>
+        <input type="text" placeholder="Enter" id="acceptance" disabled>
+
         <label for="managerComment"><b>Manager Comment:</b></label>
-        <input type="text" placeholder="Manager Comment" id="managerComment" required>
+        <input type="text" placeholder="Enter" id="managerComment" disabled>
         <br>
-        <button id="Submitbutton" onclick="employeeCreateReimbursement()">Submit</button>
+        <button id="Submitbutton" onclick="employeeCreateReimbursement()">Submit Reimbursement</button>
     </div>
 
     <div id="logoutLblPos">

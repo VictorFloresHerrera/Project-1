@@ -120,3 +120,11 @@ class ReimbursementPostgresService(ReimbursementService):  # ABC
             if d.acceptance == "Denied":
                 denied.append(d)
         return len(denied)
+
+    def get_number_of_null_reimbursement_request(self):
+        requests = self.reimbursement_dao.select_get_all_reimbursement_information()
+        null = []
+        for g in requests:
+            if g.acceptance == "":
+                null.append(g)
+        return len(null)

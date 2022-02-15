@@ -4,10 +4,10 @@ from entities.reimbursement import Reimbursement
 reimbursement_dao = ReimbursementPostgresDAO()
 
 
-def test_create_reimbursement_success():
-    login_info = Reimbursement(reimbursement_id=1, employee_id=1, manager_id=1, reimbursement=1, reasonwhy="idk",
-                               acceptance="idk", manager_comment="dik")
-    assert reimbursement_dao.create_get_reimbursement(login_info)
+# def test_create_reimbursement_success():
+#     login_info = Reimbursement(reimbursement_id=1, employee_id=1, manager_id=1, reimbursement=1, reasonwhy="idk",
+#                                acceptance="idk", manager_comment="dik")
+#     assert reimbursement_dao.create_get_reimbursement(login_info)
 
 
 def test_get_reimbursement_by_id_success():

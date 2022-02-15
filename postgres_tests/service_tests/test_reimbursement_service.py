@@ -7,7 +7,7 @@ from custom_exceptions.only_real_numbers_exception import OnlyRealNumbersExcepti
 from custom_exceptions.reimbursement_nonexist_exception import ReimbursementNonexistException
 from data_access_layer.dao_imp.reimbursement_imp_dao import ReimbursementPostgresDAO
 from entities.reimbursement import Reimbursement
-from service_layer.abstract_classes.reimbursement_service import ReimbursementService
+# from service_layer.abstract_classes.reimbursement_service import ReimbursementService
 from service_layer.service_imp.reimbursement_postgres_service import ReimbursementPostgresService
 
 reimbursement_dao = ReimbursementPostgresDAO()
@@ -123,3 +123,31 @@ def test_get_all_past_fail_by_manager_id():
         assert False
     except ManagerNonexistException as e:
         assert str(e) == "Does not exist."
+
+
+#####################################################
+def test_get_number_of_reimbursement_requests_total():
+    result = reimbursement_service.get_number_of_reimbursement_requests_total()
+    assert result == 10
+
+
+# updates
+
+def test_get_number_of_reimbursement_requests_pending():
+    result = reimbursement_service.get_number_of_reimbursement_requests_pending()
+    assert result == 4
+
+
+def test_get_number_of_reimbursement_requests_approved():
+    result = reimbursement_service.get_number_of_reimbursement_requests_approved()
+    assert result == 2
+
+
+def test_get_number_of_reimbursement_requests_denied():
+    result = reimbursement_service.get_number_of_reimbursement_requests_denied()
+    assert result == 2
+
+
+def test_get_number_of_null_reimbursement_request():
+    result = reimbursement_service.get_number_of_null_reimbursement_request()
+    assert result == 0

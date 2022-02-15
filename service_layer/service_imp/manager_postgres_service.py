@@ -11,12 +11,12 @@ class ManagerPostgresService(ManagerService):
     def __init__(self, manager_dao: ManagerPostgresDAO):
         self.manager_dao = manager_dao
 
-    def service_get_manager_info(self, user: str) -> Manager:
+    def service_get_manager_by_id(self, userid: str) -> Manager:
         manager_list = self.manager_dao.get_all_managers()
         for existing_manager in manager_list:
-            if existing_manager.user == user:
-                return self.manager_dao.get_manager_info(user)
-        raise ManagerUserNotFoundException("Manager username was not found")
+            if existing_manager.userid == userid:
+                return self.manager_dao.get_manager_by_id(userid)
+        raise ManagerUserNotFoundException("Manager user was not found")
 
     def service_get_all_managers(self) -> list[Manager]:
         all_manager = self.manager_dao.get_all_managers()
@@ -26,11 +26,11 @@ class ManagerPostgresService(ManagerService):
         updated_manager = self.service_update_manager(manager)
         return updated_manager
 
-    def service_get_login_for_manager(self, user: str, passcode: str) -> Manager:
+    def service_get_login_for_manager(self, userid: str, passcode: str) -> Manager:
         manager_list = self.manager_dao.get_all_managers()
         for existing_manager in manager_list:
-            if existing_manager.user == user and existing_manager.passcode == passcode:
-                return self.manager_dao.get_login_for_manager(user, passcode)
+            if existing_manager.userid == userid and existing_manager.passcode == passcode:
+                return self.manager_dao.get_login_for_manager(userid, passcode)
         raise LoginFailedException("Login Failed.")
 
 

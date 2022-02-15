@@ -1,10 +1,13 @@
-//Info added to page
-const employeeTable = document.getElementById("employeeTable");
-const employeeTableBody = document.getElementById("employeeBody");
-const reimbursementTable = document.getElementById("reimbursementTable");
-const reimbursementTableBody = document.getElementById("reimbursementBody");
-const user = sessionStorage.getItem("user");
-// Below is Create Employee Reimbursement
+//##### this creates the element ids that will be used through employee table ########################################
+
+const currentemployee = document.getElementById("currentemployee");
+const currentEmployeeBody = document.getElementById("employeeBody");
+const currentReimbursement = document.getElementById("currentReimbursement");
+const currentReimbursementBody = document.getElementById("currentReimbursementBody");
+const userid = sessionStorage.getItem("userid");
+
+//##### this adds the reimbursement ########################################
+
 const reimbursementId = 0
 const employeeId = document.getElementById("employeeIdInput");
 const managerId = document.getElementById("managerIdInput");
@@ -13,11 +16,15 @@ const reasonwhy = document.getElementById("reasonwhy");
 const acceptance = "Pending";
 const managerComment = "";
 
+//##### this logout will send the user back to the sign in page ########################################
+
 function logout(){
     sessionStorage.clear();
     window.location.href = "../html/login.html"
 }
-//WORKS
+
+//##### we will be able to create our reimbursement here ########################################
+
 async function employeeCreateReimbursement(){
     let response = await fetch(
         "http://127.0.0.1:5000/reimbursement", {
@@ -30,12 +37,14 @@ async function employeeCreateReimbursement(){
         let body = await response.json();
     }
     else{
-        alert("There was a problem requesting.");
+        alert("Error Attempting to request reimbursement form.");
     }
 }
-//Works
+
+//##### this will let us to obtain the employee info by userid ########################################
+
 async function getAllEmployeeData(){
-    let url = "http://127.0.0.1:5000/employee/" + user.toLowerCase();
+    let url = "http://127.0.0.1:5000/employee/" + userid.toLowerCase();
     let response = await fetch(url);
 
     if(response.status === 200){
@@ -45,12 +54,13 @@ async function getAllEmployeeData(){
         getAllReimbursementInfo();
     }
     else{
-        alert("problem trying to get the employee ");
+        alert("Error attempting to get employee information.");
     }
 
 }
-//WORKS
-//this function to grab all the reimbursement data.
+
+//##### this will allow us to grab the reimbursement by employeeID ########################################
+
 async function getAllReimbursementInfo(){
     let employeeID = sessionStorage.getItem("employeeId");
     let url = "http://127.0.0.1:5000/employee/reimbursement/" + employeeID;
@@ -62,29 +72,31 @@ async function getAllReimbursementInfo(){
         populateReimbursementsData(body);
     }
     else{
-        alert("problem trying to receive the reimbursement");
+        alert("Error attempting to receive the reimbursement information.");
     }
 }
 
+//##### we will grab and add the employee ########################################
 
-//function to grab the employee...
 function populateEmployeeData(employee){
     let tableRow = document.createElement("tr");
     tableRow.innerHTML = ''
-    tableRow.innerHTML = `<td>${employee.employeeId}</td><td>${employee.firstName}</td><td>${employee.lastName}</td><td>${employee.user}</td>`;
-    employeeTableBody.appendChild(tableRow);
+    tableRow.innerHTML = `<td>${employee.employeeId}</td><td>${employee.firstName}</td><td>${employee.lastName}</td><td>${employee.userid}</td>`;
+    currentEmployeeBody.appendChild(tableRow);
     sessionStorage.setItem("employeeId", employee.employeeId);
 
 }
+//##### we will grab and add reimbursement for the employee ########################################
 
-//function to grab the reimbursement for the employee...
 function populateReimbursementsData(responseBody){
     for(let reimbursement of responseBody){
         let tableRow = document.createElement("tr");
         tableRow.innerHTML = `<td>${reimbursement.reimbursementId}</td><td>${reimbursement.managerId}</td><td>${reimbursement.reimbursement}</td><td>${reimbursement.reasonwhy}</td><td>${reimbursement.acceptance}</td><td>${reimbursement.managerComment}</td>`;
         console.log(tableRow);
-        reimbursementTableBody.appendChild(tableRow);
-        console.log(reimbursementTableBody);
+        currentReimbursementBody.appendChild(tableRow);
+        console.log(currentReimbursementBody);
     }
 }
+
+//##### add data to the table ########################################
 getAllEmployeeData();
